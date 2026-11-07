@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "historyId": "843b84c1-ace6-4e33-bcac-bff81f435daa",
+  "currentRevision": null,
+  "pendingChanges": false,
+  "files": {
+    "assets/gsap.min.js": {
+      "hash": "c174bfce53a729418d57a8ad8625e7247c793a22fef8e2851e3cfa3de9cd8280",
+      "content": "/Users/adityajogdand/.cache/hyperframes/history/843b84c1-ace6-4e33-bcac-bff81f435daa/blobs/c1/c174bfce53a729418d57a8ad8625e7247c793a22fef8e2851e3cfa3de9cd8280"
+    },
+    "assets/sfx/card-fan-1.ogg": {
+      "hash": "7a9758ccad8899baef1b9f60b4064e4baa724a548293832fdaea07e6e07e638d",
+      "content": "/Users/adityajogdand/.cache/hyperframes/history/843b84c1-ace6-4e33-bcac-bff81f435daa/blobs/7a/7a9758ccad8899baef1b9f60b4064e4baa724a548293832fdaea07e6e07e638d"
+    },
+    "assets/sfx/drop_001.ogg": {
+      "hash": "692ee3a6f1821402ca649ff735bee9591dc4846c8098fc7d6a90fd15fa57c1af",
+      "content": "/Users/adityajogdand/.cache/hyperframes/history/843b84c1-ace6-4e33-bcac-bff81f435daa/blobs/69/692ee3a6f1821402ca649ff735bee9591dc4846c8098fc7d6a90fd15fa57c1af"
+    },
+    "assets/sfx/impactBell_heavy_000.ogg": {
+      "hash": "94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f",
+      "content": "/Users/adityajogdand/.cache/hyperframes/history/843b84c1-ace6-4e33-bcac-bff81f435daa/blobs/94/94b8bb5f2d43ab65e4bcc32b28562416e9bc2c51d9fd4be1e333660ee52f977f"
+    },
+    "assets/vo/ann.wav": {
+      "hash": "b4ec00bea2d82056f3e957d58c940dce6a663eea82faf4cf33cd7ad7b3fc9479",
+      "content": "/Users/adityajogdand/.cache/hyperframes/history/843b84c1-ace6-4e33-bcac-bff81f435daa/blobs/b4/b4ec00bea2d82056f3e957d58c940dce6a663eea82faf4cf33cd7ad7b3fc9479"
+    },
+    "assets/vo/ann_gu.wav": {
+      "hash": "9efaa853a2bbd3701efe9c4725031b07ab02b2201aa61de54b58670331356d0f",
+      "content": "/Users/adityajogdand/.cache/hyperframes/history/843b84c1-ace6-4e33-bcac-bff81f435daa/blobs/9e/9efaa853a2bbd3701efe9c4725031b07ab02b2201aa61de54b58670331356d0f"
+    },
+    "assets/vo/ann_hi.wav": {
+      "hash": "aad899771b645c9cbd1fd05cb1ce5dacbe2a3456065495127d430c85b7d0c47c",
+      "content": "/Users/adityajogdand/.cache/hyperframes/history/843b84c1-ace6-4e33-bcac-bff81f435daa/blobs/aa/aad899771b645c9cbd1fd05cb1ce5dacbe2a3456065495127d430c85b7d0c47c"
+    },
+    "assets/vo/q.wav": {
+      "hash": "408007b44e906ffe8dec67fdaca42d37670e3b5052239101593eedba60746027",
+      "content": "/Users/adityajogdand/.cache/hyperframes/history/843b84c1-ace6-4e33-bcac-bff81f435daa/blobs/40/408007b44e906ffe8dec67fdaca42d37670e3b5052239101593eedba60746027"
+    },
+    "assets/vo/vo1.wav": {
+      "hash": "f263995ab7467c7334a6f90f09a4774cd1d2ff5c855389c60eb1f7e267990987",
+      "content": "/Users/adityajogdand/.cache/hyperframes/history/843b84c1-ace6-4e33-bcac-bff81f435daa/blobs/f2/f263995ab7467c7334a6f90f09a4774cd1d2ff5c855389c60eb1f7e267990987"
+    },
+    "assets/vo/vo2.wav": {
+      "hash": "a94683643a8bcadbb6286d766d7e494b2f8759198d5df821df519f44747cebb2",
+      "content": "/Users/adityajogdand/.cache/hyperframes/history/843b84c1-ace6-4e33-bcac-bff81f435daa/blobs/a9/a94683643a8bcadbb6286d766d7e494b2f8759198d5df821df519f44747cebb2"
+    },
+    "assets/vo/vo3.wav": {
+      "hash": "05f32f170badc0ad301138a618e394a6036959953f973f165e1a582e91083850",
+      "content": "/Users/adityajogdand/.cache/hyperframes/history/843b84c1-ace6-4e33-bcac-bff81f435daa/blobs/05/05f32f170badc0ad301138a618e394a6036959953f973f165e1a582e91083850"
+    },
+    "assets/vo/vo4.wav": {
+      "hash": "bb1a30ad325ee39a8b8255742db8f14be1037237404aa73186ced1b87188bdeb",
+      "content": "/Users/adityajogdand/.cache/hyperframes/history/843b84c1-ace6-4e33-bcac-bff81f435daa/blobs/bb/bb1a30ad325ee39a8b8255742db8f14be1037237404aa73186ced1b87188bdeb"
+    },
+    "assets/vo/vo5.wav": {
+      "hash": "20b202fed514bb48852dab64b5db01bc4e04dc07a4c1232aced045ae02c66fec",
+      "content": "/Users/adityajogdand/.cache/hyperframes/history/843b84c1-ace6-4e33-bcac-bff81f435daa/blobs/20/20b202fed514bb48852dab64b5db01bc4e04dc07a4c1232aced045ae02c66fec"
+    },
+    "assets/vo/vo6.wav": {
+      "hash": "9b215af3246e6fc95323cf1ac69905866a2e97b30b59983f1b39bc778421ab17",
+      "content": "/Users/adityajogdand/.cache/hyperframes/history/843b84c1-ace6-4e33-bcac-bff81f435daa/blobs/9b/9b215af3246e6fc95323cf1ac69905866a2e97b30b59983f1b39bc778421ab17"
+    },
+    "index.html": {
+      "hash": "40268ee8b95e65d370db42d6f0f2191f66861ae3e90cb447f78496a66668ec45",
+      "content": "/Users/adityajogdand/.cache/hyperframes/history/843b84c1-ace6-4e33-bcac-bff81f435daa/blobs/40/40268ee8b95e65d370db42d6f0f2191f66861ae3e90cb447f78496a66668ec45"
+    },
+    "assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3": {
+      "hash": "5888d4bd2ba0119b87a94e502ae2cc401c08192945cc5e5c2f8e8a33aa47a0a1",
+      "content": "/Users/adityajogdand/.cache/hyperframes/history/843b84c1-ace6-4e33-bcac-bff81f435daa/blobs/58/5888d4bd2ba0119b87a94e502ae2cc401c08192945cc5e5c2f8e8a33aa47a0a1"
+    }
+  },
+  "revisions": {},
+  "checks": {
+    "latest": {
+      "revision": null,
+      "id": "6de14f52-dc8f-415d-875d-eeed50da6930"
+    },
+    "revisions": {},
+    "unversioned": [
+      {
+        "id": "6de14f52-dc8f-415d-875d-eeed50da6930",
+        "scope": "project",
+        "report": "/Users/adityajogdand/Desktop/gnani_ai_hackathon/brag-output/composition-mr/.hyperframes/artifacts/checks/6de14f52-dc8f-415d-875d-eeed50da6930.json",
+        "metadata": {
+          "ok": true,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 10000,
+            "contrast": true,
+            "strict": false,
+            "snapshots": false,
+            "browserGpuMode": "auto"
+          }
+        },
+        "createdAt": 1793444447938,
+        "contentHash": "ed531bfefbacf96d27d6dc2f3d1cca91dc6292221a4742c5c87a60a8df9b72fa",
+        "revision": null,
+        "inputFingerprint": "a9dfef930dba414ccd0dadb645f71ae3a81c1b24f35a774a12319d15ad7b7ec0",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "snapshots": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "renders": {
+    "latest": {
+      "id": "51853e7d-582f-4b06-ab84-2fa69f15360f",
+      "completedAt": 1793444472433,
+      "output": "/Users/adityajogdand/Desktop/gnani_ai_hackathon/brag-output/yunio-marathi.mp4",
+      "status": "completed",
+      "revision": null
+    },
+    "retainedRevisions": []
+  },
+  "pendingArtifactCleanup": []
+}

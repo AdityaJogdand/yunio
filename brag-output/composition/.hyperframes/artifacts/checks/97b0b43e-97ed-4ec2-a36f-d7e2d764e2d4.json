@@ -1,0 +1,1195 @@
+{
+  "ok": false,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 8,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "timeline_track_too_dense",
+        "severity": "warning",
+        "message": "Track 1 has 4 timed elements in this HTML file. Smaller sub-compositions keep timelines easier to read, iterate on, and diff.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "/Users/adityajogdand/Desktop/gnani_ai_hackathon/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move coherent scene groups into separate .html files under compositions/ and mount them from the parent with data-composition-src so the timeline stays easier to inspect, revise, and validate."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"s1\"> is a timeline element that contains nested <div id=\"s1-a\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#s1",
+        "dataAttributes": {},
+        "sourceFile": "/Users/adityajogdand/Desktop/gnani_ai_hackathon/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"s1\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"s2\"> is a timeline element that contains nested <div id=\"s2-mark\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#s2",
+        "dataAttributes": {},
+        "sourceFile": "/Users/adityajogdand/Desktop/gnani_ai_hackathon/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"s2\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"s3\"> is a timeline element that contains nested <div id=\"s3-1\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#s3",
+        "dataAttributes": {},
+        "sourceFile": "/Users/adityajogdand/Desktop/gnani_ai_hackathon/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"s3\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"s4\"> is a timeline element that contains nested <div id=\"s4-1\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#s4",
+        "dataAttributes": {},
+        "sourceFile": "/Users/adityajogdand/Desktop/gnani_ai_hackathon/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"s4\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"s5\"> is a timeline element that contains nested <div id=\"s5-1\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#s5",
+        "dataAttributes": {},
+        "sourceFile": "/Users/adityajogdand/Desktop/gnani_ai_hackathon/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"s5\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"phone-clip\"> is a timeline element that contains nested <div id=\"phone\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#phone-clip",
+        "dataAttributes": {},
+        "sourceFile": "/Users/adityajogdand/Desktop/gnani_ai_hackathon/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"phone-clip\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"s6\"> is a timeline element that contains nested <div id=\"s6-check\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#s6",
+        "dataAttributes": {},
+        "sourceFile": "/Users/adityajogdand/Desktop/gnani_ai_hackathon/brag-output/composition/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"s6\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      }
+    ],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 3,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "clip_media_fit",
+        "severity": "warning",
+        "message": "Audio \"sfx-ask\" is 0.11s but its slot (data-duration) is 1.00s — the slot is shortened to the media length when rendered. Set data-duration to ~0.11s if that isn't intended.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "main",
+          "data-start": "0",
+          "data-width": "1080",
+          "data-height": "1080",
+          "data-duration": "35"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1080,
+          "height": 1080
+        },
+        "time": 0
+      },
+      {
+        "code": "clip_media_fit",
+        "severity": "warning",
+        "message": "Audio \"sfx-cards\" is 0.72s but its slot (data-duration) is 1.20s — the slot is shortened to the media length when rendered. Set data-duration to ~0.72s if that isn't intended.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "main",
+          "data-start": "0",
+          "data-width": "1080",
+          "data-height": "1080",
+          "data-duration": "35"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1080,
+          "height": 1080
+        },
+        "time": 0
+      },
+      {
+        "code": "clip_media_fit",
+        "severity": "warning",
+        "message": "Audio \"sfx-bell\" is 1.48s but its slot (data-duration) is 2.00s — the slot is shortened to the media length when rendered. Set data-duration to ~1.48s if that isn't intended.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "main",
+          "data-start": "0",
+          "data-width": "1080",
+          "data-height": "1080",
+          "data-duration": "35"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1080,
+          "height": 1080
+        },
+        "time": 0
+      }
+    ]
+  },
+  "layout": {
+    "ok": false,
+    "errorCount": 2,
+    "warningCount": 0,
+    "infoCount": 4,
+    "findings": [
+      {
+        "code": "clipped_text",
+        "severity": "error",
+        "time": 25.278,
+        "selector": "#scr-ann > div:nth-of-type(6) > div:nth-of-type(2)",
+        "message": "Text content is clipped by its own box.",
+        "rect": {
+          "left": 623,
+          "top": 646,
+          "right": 963,
+          "bottom": 685,
+          "width": 340,
+          "height": 39
+        },
+        "text": "సిన్నర్ నుండి వచ్చిన సఖుబాయి పాటీల్ కుటుంబ సభ్యులు గమనించండి. సఖుబాయి పాటీల్ క్యాంప్ నంబర్ 4 వద్ద సురక్షితంగా ఉన్నారు.",
+        "fixHint": "Text is 340px x 39px inside 340px x 39px and overflows by up to 20px; increase the text box height to at least ~59px, or allow wrapping with max-width/fitTextFontSize.",
+        "overflow": {
+          "bottom": 20
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 623,
+          "y": 646,
+          "width": 340,
+          "height": 39
+        },
+        "firstSeen": 25.278,
+        "lastSeen": 29.167,
+        "occurrences": 2,
+        "heldMs": 0,
+        "times": [
+          25.278,
+          29.167
+        ]
+      },
+      {
+        "code": "clipped_text",
+        "severity": "error",
+        "time": 25.278,
+        "selector": "#scr-ann > div:nth-of-type(7) > div:nth-of-type(2)",
+        "message": "Text content is clipped by its own box.",
+        "rect": {
+          "left": 623,
+          "top": 759,
+          "right": 963,
+          "bottom": 798,
+          "width": 340,
+          "height": 39
+        },
+        "text": "ಸಿನ್ನರ್ ಊರಿನಿಂದ ಬಂದ ಸಖುಬಾಯಿ ಪಾಟೀಲ್ ಅವರ ಕುಟುಂಬದವರು ಗಮನಿಸಿ. ಸಖುಬಾಯಿ ಪಾಟೀಲ್ ಶಿಬಿರ ಸಂಖ್ಯೆ 4ರಲ್ಲಿ ಸುರಕ್ಷಿತವಾಗಿದ್ದಾರೆ.",
+        "fixHint": "Text is 340px x 39px inside 340px x 39px and overflows by up to 20px; increase the text box height to at least ~59px, or allow wrapping with max-width/fitTextFontSize.",
+        "overflow": {
+          "bottom": 20
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 623,
+          "y": 759,
+          "width": 340,
+          "height": 39
+        },
+        "firstSeen": 25.278,
+        "lastSeen": 29.167,
+        "occurrences": 2,
+        "heldMs": 0,
+        "times": [
+          25.278,
+          29.167
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 9.777,
+        "selector": "div.h-sub",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 608,
+          "top": 253.19,
+          "right": 806.72,
+          "bottom": 269.19,
+          "width": 198.72,
+          "height": 16
+        },
+        "containerSelector": "div.seg > div:nth-of-type(1)",
+        "text": "Lost & found · Camp 3, Ramkund",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 608,
+          "y": 253.19,
+          "width": 198.72,
+          "height": 16
+        },
+        "firstSeen": 9.777,
+        "lastSeen": 9.777,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          9.777
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 9.777,
+        "selector": "div.top > span:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 625,
+          "top": 298.19,
+          "right": 672.94,
+          "bottom": 318.19,
+          "width": 47.94,
+          "height": 20
+        },
+        "containerSelector": "div.chip.on",
+        "text": "Today",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 625,
+          "y": 298.19,
+          "width": 47.94,
+          "height": 20
+        },
+        "firstSeen": 9.777,
+        "lastSeen": 9.777,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          9.777
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 23.464,
+        "selector": "#scr-match > div:nth-of-type(1) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 621.47,
+          "top": 183,
+          "right": 630.52,
+          "bottom": 209,
+          "width": 9.05,
+          "height": 26
+        },
+        "containerSelector": "#scr-ann > div:nth-of-type(1) > div:nth-of-type(1)",
+        "text": "‹",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 621.47,
+          "y": 183,
+          "width": 9.05,
+          "height": 26
+        },
+        "firstSeen": 23.464,
+        "lastSeen": 23.464,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          23.464
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 23.464,
+        "selector": "#scr-match > div:nth-of-type(1) > div:nth-of-type(2)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 739.27,
+          "top": 187,
+          "right": 846.75,
+          "bottom": 205,
+          "width": 107.48,
+          "height": 18
+        },
+        "containerSelector": "#scr-ann > div:nth-of-type(1) > div:nth-of-type(2)",
+        "text": "Same person?",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 739.27,
+          "y": 187,
+          "width": 107.48,
+          "height": 18
+        },
+        "firstSeen": 23.464,
+        "lastSeen": 23.464,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          23.464
+        ]
+      }
+    ],
+    "duration": 35,
+    "samples": [
+      1.944,
+      5.833,
+      9.722,
+      13.611,
+      17.5,
+      21.389,
+      25.278,
+      29.167,
+      33.056
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 6,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      1.944,
+      9.722,
+      17.5,
+      25.278,
+      33.056
+    ],
+    "checked": 65,
+    "passed": 65
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 4,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "first_frame_empty",
+        "severity": "warning",
+        "message": "Frame 0 shows only the background, and the first frame is the thumbnail on social players: have the title or key image already on screen at 0 s instead of entering from nothing; see references/review.md.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 78 text elements stay under it for 0.5 s or more, the smallest \"SATURDAY, 31 OCTOBER\" at 11 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "SATURDAY, 31 OCTOBER",
+        "selector": "div.h-date",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 608,
+          "y": 201.7,
+          "width": 159.39,
+          "height": 13
+        },
+        "time": 6,
+        "times": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6.625,
+          9.875,
+          9.875,
+          9.875,
+          9.875,
+          9.875,
+          9.875,
+          9.875,
+          9.875,
+          13.375,
+          13.5,
+          13.625,
+          13.75,
+          13.875,
+          14,
+          14.25,
+          14.375,
+          14.5,
+          14.75,
+          14.875,
+          15,
+          15,
+          17.375,
+          17.375,
+          17.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          19.375,
+          20.125,
+          20.5,
+          20.875,
+          21.25,
+          23.5,
+          23.5,
+          23.625,
+          23.625,
+          23.75,
+          23.75,
+          23.875,
+          23.875,
+          24,
+          24,
+          24.125,
+          24.125,
+          24.625,
+          27.25,
+          33.625
+        ],
+        "fontPx": 11,
+        "floorPx": 28,
+        "seconds": 3.875,
+        "elements": [
+          {
+            "selector": "div.h-date",
+            "text": "SATURDAY, 31 OCTOBER",
+            "fontPx": 11,
+            "time": 6,
+            "seconds": 3.875
+          },
+          {
+            "selector": "div.asked-head > div:nth-of-type(1)",
+            "text": "Bhet asks",
+            "fontPx": 11.98,
+            "time": 17.375,
+            "seconds": 1.875
+          },
+          {
+            "selector": "div.top > span:nth-of-type(2)",
+            "text": "All 4 camps",
+            "fontPx": 12,
+            "time": 6,
+            "seconds": 3.875
+          },
+          {
+            "selector": "div.today > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "missing",
+            "fontPx": 12,
+            "time": 6,
+            "seconds": 3.875
+          },
+          {
+            "selector": "div.ring-in > span:nth-of-type(1)",
+            "text": "reunited",
+            "fontPx": 12,
+            "time": 6,
+            "seconds": 3.875
+          },
+          {
+            "selector": "div.today > div:nth-of-type(3) > span:nth-of-type(1)",
+            "text": "found",
+            "fontPx": 12,
+            "time": 6,
+            "seconds": 3.875
+          },
+          {
+            "selector": "#said > div:nth-of-type(1)",
+            "text": "They said",
+            "fontPx": 12,
+            "time": 13.375,
+            "seconds": 5.875
+          },
+          {
+            "selector": "#prisma",
+            "text": "Gnani Prisma · 0.8 s",
+            "fontPx": 12,
+            "time": 15,
+            "seconds": 4.25
+          },
+          {
+            "selector": "#scr-match > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1)",
+            "text": "Name",
+            "fontPx": 12,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "#scr-match > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(1)",
+            "text": "Age",
+            "fontPx": 12,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "#scr-match > div:nth-of-type(2) > div:nth-of-type(4) > div:nth-of-type(1)",
+            "text": "Wearing",
+            "fontPx": 12,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "#scr-match > div:nth-of-type(2) > div:nth-of-type(5) > div:nth-of-type(1)",
+            "text": "Village",
+            "fontPx": 12,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "#scr-match > div:nth-of-type(2) > div:nth-of-type(6) > div:nth-of-type(1)",
+            "text": "Camp",
+            "fontPx": 12,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "#playing",
+            "text": "Playing",
+            "fontPx": 12,
+            "time": 27.25,
+            "seconds": 3.5
+          },
+          {
+            "selector": "div.asked-en",
+            "text": "What is she wearing?",
+            "fontPx": 12.98,
+            "time": 17.375,
+            "seconds": 1.875
+          },
+          {
+            "selector": "div.h-sub",
+            "text": "Lost & found · Camp 3, Ramkund",
+            "fontPx": 13,
+            "time": 6,
+            "seconds": 3.875
+          },
+          {
+            "selector": "#mic-hint",
+            "text": "Tap to record, or hold to talk",
+            "fontPx": 13,
+            "time": 9.875,
+            "seconds": 9.375
+          },
+          {
+            "selector": "div.m-head > div:nth-of-type(2)",
+            "text": "Missing",
+            "fontPx": 13,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "div.m-head > div:nth-of-type(3)",
+            "text": "Found",
+            "fontPx": 13,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "div.reasons > div:nth-of-type(1)",
+            "text": "same name",
+            "fontPx": 13,
+            "time": 20.125,
+            "seconds": 3.25
+          },
+          {
+            "selector": "div.reasons > div:nth-of-type(2)",
+            "text": "same village",
+            "fontPx": 13,
+            "time": 20.5,
+            "seconds": 2.875
+          },
+          {
+            "selector": "div.reasons > div:nth-of-type(3)",
+            "text": "similar age",
+            "fontPx": 13,
+            "time": 20.875,
+            "seconds": 2.5
+          },
+          {
+            "selector": "div.reasons > div:nth-of-type(4)",
+            "text": "both in green saree",
+            "fontPx": 13,
+            "time": 21.25,
+            "seconds": 2.125
+          },
+          {
+            "selector": "div.lead",
+            "text": "Play these on the speaker, in the family's language first.",
+            "fontPx": 13,
+            "time": 23.5,
+            "seconds": 7.25
+          },
+          {
+            "selector": "#ann-mr > div:nth-of-type(2)",
+            "text": "सिन्नर येथून आलेल्या सखुबाई पाटील यांच्या नातेवाईकांनी लक्ष द्यावे. सखुबाई पाटील कॅम्प क्रमांक 4 येथे सुरक्षित आहेत. कृपया तिथे या.",
+            "fontPx": 13,
+            "time": 23.625,
+            "seconds": 7.125
+          },
+          {
+            "selector": "#scr-ann > div:nth-of-type(4) > div:nth-of-type(2)",
+            "text": "सिन्नर से आए सखुबाई पाटील के परिवार वाले ध्यान दें। सखुबाई पाटील कैंप नंबर 4 पर सुरक्षित हैं। कृपया वहाँ आएँ।",
+            "fontPx": 13,
+            "time": 23.75,
+            "seconds": 7
+          },
+          {
+            "selector": "#scr-ann > div:nth-of-type(5) > div:nth-of-type(2)",
+            "text": "સિન્નરથી આવેલા સખુબાઈ પાટીલના પરિવારજનો ધ્યાન આપે. સખુબાઈ પાટીલ કેમ્પ નંબર 4 પર સુરક્ષિત છે. કૃપા કરીને ત્યાં આવો.",
+            "fontPx": 13,
+            "time": 23.875,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scr-ann > div:nth-of-type(6) > div:nth-of-type(2)",
+            "text": "సిన్నర్ నుండి వచ్చిన సఖుబాయి పాటీల్ కుటుంబ సభ్యులు గమనించండి. సఖుబాయి పాటీల్ క్యాంప్ నంబర్ 4 వద్ద సురక్షితంగా ఉన్నారు.",
+            "fontPx": 13,
+            "time": 24,
+            "seconds": 6.75
+          },
+          {
+            "selector": "#scr-ann > div:nth-of-type(7) > div:nth-of-type(2)",
+            "text": "ಸಿನ್ನರ್ ಊರಿನಿಂದ ಬಂದ ಸಖುಬಾಯಿ ಪಾಟೀಲ್ ಅವರ ಕುಟುಂಬದವರು ಗಮನಿಸಿ. ಸಖುಬಾಯಿ ಪಾಟೀಲ್ ಶಿಬಿರ ಸಂಖ್ಯೆ 4ರಲ್ಲಿ ಸುರಕ್ಷಿತವಾಗಿದ್ದಾರೆ.",
+            "fontPx": 13,
+            "time": 24.125,
+            "seconds": 6.625
+          },
+          {
+            "selector": "#scr-home > div:nth-of-type(6) > div:nth-of-type(2) > div:nth-of-type(2)",
+            "text": "कोणी हरवले आहे",
+            "fontPx": 14,
+            "time": 6,
+            "seconds": 3.875
+          },
+          {
+            "selector": "#scr-home > div:nth-of-type(7) > div:nth-of-type(2) > div:nth-of-type(2)",
+            "text": "कोणी सापडले आहे",
+            "fontPx": 14,
+            "time": 6,
+            "seconds": 3.875
+          },
+          {
+            "selector": "div.seg > div:nth-of-type(1)",
+            "text": "हरवले · Missing",
+            "fontPx": 14,
+            "time": 9.875,
+            "seconds": 9.375
+          },
+          {
+            "selector": "div.seg > div:nth-of-type(2)",
+            "text": "सापडले · Found",
+            "fontPx": 14,
+            "time": 9.875,
+            "seconds": 9.375
+          },
+          {
+            "selector": "div.chip.on",
+            "text": "मराठी",
+            "fontPx": 14,
+            "time": 9.875,
+            "seconds": 9.375
+          },
+          {
+            "selector": "div.chips > div:nth-of-type(2)",
+            "text": "हिंदी",
+            "fontPx": 14,
+            "time": 9.875,
+            "seconds": 9.375
+          },
+          {
+            "selector": "div.chips > div:nth-of-type(3)",
+            "text": "ગુજરાતી",
+            "fontPx": 14,
+            "time": 9.875,
+            "seconds": 9.375
+          },
+          {
+            "selector": "div.chips > div:nth-of-type(4)",
+            "text": "తెలుగు",
+            "fontPx": 14,
+            "time": 9.875,
+            "seconds": 9.375
+          },
+          {
+            "selector": "#ann-mr > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "मराठी",
+            "fontPx": 14,
+            "time": 23.625,
+            "seconds": 7.125
+          },
+          {
+            "selector": "#scr-ann > div:nth-of-type(4) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "हिंदी",
+            "fontPx": 14,
+            "time": 23.75,
+            "seconds": 7
+          },
+          {
+            "selector": "#scr-ann > div:nth-of-type(5) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "ગુજરાતી",
+            "fontPx": 14,
+            "time": 23.875,
+            "seconds": 6.875
+          },
+          {
+            "selector": "#scr-ann > div:nth-of-type(6) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "తెలుగు",
+            "fontPx": 14,
+            "time": 24,
+            "seconds": 6.75
+          },
+          {
+            "selector": "#scr-ann > div:nth-of-type(7) > div:nth-of-type(1) > span:nth-of-type(1)",
+            "text": "ಕನ್ನಡ",
+            "fontPx": 14,
+            "time": 24.125,
+            "seconds": 6.625
+          },
+          {
+            "selector": "#scr-match > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2)",
+            "text": "सखुबाई पाटील",
+            "fontPx": 15,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "#scr-match > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(3)",
+            "text": "ಸಖುಬಾಯಿ",
+            "fontPx": 15,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "#scr-match > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(2)",
+            "text": "70",
+            "fontPx": 15,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "#scr-match > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(3)",
+            "text": "72",
+            "fontPx": 15,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "#scr-match > div:nth-of-type(2) > div:nth-of-type(4) > div:nth-of-type(2)",
+            "text": "हिरवी साडी",
+            "fontPx": 15,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "#scr-match > div:nth-of-type(2) > div:nth-of-type(4) > div:nth-of-type(3)",
+            "text": "green saree",
+            "fontPx": 15,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "#scr-match > div:nth-of-type(2) > div:nth-of-type(5) > div:nth-of-type(2)",
+            "text": "सिन्नर",
+            "fontPx": 15,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "#scr-match > div:nth-of-type(2) > div:nth-of-type(5) > div:nth-of-type(3)",
+            "text": "ಸಿನ್ನರ್",
+            "fontPx": 15,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "#scr-match > div:nth-of-type(2) > div:nth-of-type(6) > div:nth-of-type(2)",
+            "text": "3 · मराठी",
+            "fontPx": 15,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "#scr-match > div:nth-of-type(2) > div:nth-of-type(6) > div:nth-of-type(3)",
+            "text": "4 · ಕನ್ನಡ",
+            "fontPx": 15,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "div.score > span:nth-of-type(1)",
+            "text": "likely",
+            "fontPx": 15,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "#scr-talk > div:nth-of-type(1) > div:nth-of-type(2)",
+            "text": "New report",
+            "fontPx": 16,
+            "time": 9.875,
+            "seconds": 9.375
+          },
+          {
+            "selector": "#scr-match > div:nth-of-type(1) > div:nth-of-type(2)",
+            "text": "Same person?",
+            "fontPx": 16,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "div.primary",
+            "text": "Yes, same person",
+            "fontPx": 16,
+            "time": 19.375,
+            "seconds": 4
+          },
+          {
+            "selector": "#scr-ann > div:nth-of-type(1) > div:nth-of-type(2)",
+            "text": "Tell the family",
+            "fontPx": 16,
+            "time": 23.5,
+            "seconds": 7.25
+          },
+          {
+            "selector": "div.top > span:nth-of-type(1)",
+            "text": "Today",
+            "fontPx": 17,
+            "time": 6,
+            "seconds": 3.875
+          },
+          {
+            "selector": "#scr-home > div:nth-of-type(6) > div:nth-of-type(2) > div:nth-of-type(1)",
+            "text": "Someone is missing",
+            "fontPx": 17,
+            "time": 6,
+            "seconds": 3.875
+          },
+          {
+            "selector": "#scr-home > div:nth-of-type(7) > div:nth-of-type(2) > div:nth-of-type(1)",
+            "text": "I found someone",
+            "fontPx": 17,
+            "time": 6,
+            "seconds": 3.875
+          },
+          {
+            "selector": "#said-text > span:nth-of-type(1)",
+            "text": "माझी",
+            "fontPx": 17,
+            "time": 13.5,
+            "seconds": 5.75
+          },
+          {
+            "selector": "#said-text > span:nth-of-type(2)",
+            "text": "आजी",
+            "fontPx": 17,
+            "time": 13.625,
+            "seconds": 5.625
+          },
+          {
+            "selector": "#said-text > span:nth-of-type(3)",
+            "text": "हरवली",
+            "fontPx": 17,
+            "time": 13.75,
+            "seconds": 5.5
+          },
+          {
+            "selector": "#said-text > span:nth-of-type(4)",
+            "text": "आहे.",
+            "fontPx": 17,
+            "time": 13.875,
+            "seconds": 5.375
+          },
+          {
+            "selector": "#said-text > span:nth-of-type(5)",
+            "text": "नाव",
+            "fontPx": 17,
+            "time": 14,
+            "seconds": 5.25
+          },
+          {
+            "selector": "#said-text > span:nth-of-type(6)",
+            "text": "सखुबाई",
+            "fontPx": 17,
+            "time": 14.25,
+            "seconds": 5
+          },
+          {
+            "selector": "#said-text > span:nth-of-type(7)",
+            "text": "पाटील,",
+            "fontPx": 17,
+            "time": 14.375,
+            "seconds": 4.875
+          },
+          {
+            "selector": "#said-text > span:nth-of-type(8)",
+            "text": "वय",
+            "fontPx": 17,
+            "time": 14.5,
+            "seconds": 4.75
+          },
+          {
+            "selector": "#said-text > span:nth-of-type(9)",
+            "text": "सत्तर,",
+            "fontPx": 17,
+            "time": 14.75,
+            "seconds": 4.5
+          },
+          {
+            "selector": "#said-text > span:nth-of-type(10)",
+            "text": "गाव",
+            "fontPx": 17,
+            "time": 14.875,
+            "seconds": 4.375
+          },
+          {
+            "selector": "#said-text > span:nth-of-type(11)",
+            "text": "सिन्नर.",
+            "fontPx": 17,
+            "time": 15,
+            "seconds": 4.25
+          },
+          {
+            "selector": "#s6-foot",
+            "text": "Prototype · synthetic data · not a government service",
+            "fontPx": 18,
+            "time": 33.625,
+            "seconds": 1.375
+          },
+          {
+            "selector": "div.asked-text",
+            "text": "आजींनी काय घातलं आहे?",
+            "fontPx": 18.97,
+            "time": 17.375,
+            "seconds": 1.875
+          },
+          {
+            "selector": "div.ask",
+            "text": "What happened?",
+            "fontPx": 19,
+            "time": 6,
+            "seconds": 3.875
+          },
+          {
+            "selector": "#s5-2",
+            "text": "Voiced by Gnani Timbre",
+            "fontPx": 22,
+            "time": 24.625,
+            "seconds": 6.125
+          },
+          {
+            "selector": "div.today > div:nth-of-type(1) > b:nth-of-type(1)",
+            "text": "2",
+            "fontPx": 26,
+            "time": 6,
+            "seconds": 3.875
+          },
+          {
+            "selector": "div.today > div:nth-of-type(3) > b:nth-of-type(1)",
+            "text": "4",
+            "fontPx": 26,
+            "time": 6,
+            "seconds": 3.875
+          },
+          {
+            "selector": "#s2-sub",
+            "text": "Voice lost-and-found for mass gatherings",
+            "fontPx": 26,
+            "time": 6.625,
+            "seconds": 3
+          }
+        ]
+      },
+      {
+        "code": "dead_stretch",
+        "severity": "warning",
+        "message": "Nothing on screen changes for 3.13 s (27.38–30.50 s): start the next move within 3 s, or put data-hold on the element whose stillness is deliberate; see references/motion.md.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 27.375,
+        "seconds": 3.125,
+        "floorSeconds": 3,
+        "until": 30.5
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "The film's last line \"Built on Gnani Prisma + Timbre\" (5 words) is on screen 1.73 s (±0.01 s), under the 2.00 s a closing line needs: hold it about 0.5 s + 0.3 s a word and at least 2 s before the film ends; see references/motion.md.",
+        "text": "Built on Gnani Prisma + Timbre",
+        "selector": "#s6-built",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 355.38,
+          "y": 706,
+          "width": 369.23,
+          "height": 33
+        },
+        "time": 33.273,
+        "words": 5,
+        "seconds": 1.73,
+        "floorSeconds": 2
+      }
+    ],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 280
+  },
+  "audio": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

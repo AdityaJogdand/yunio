@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Yunio thumbnail</title>
+<style>
+  :root { --card: #0e0e0e; --rim: rgba(255,255,255,.12); --muted: rgba(255,255,255,.72); --quiet: rgba(255,255,255,.5); --lost: #ff6b3d; --found: #30d158; }
+  html, body { margin: 0; width: 1080px; height: 1080px; background: #000; color: #fff; font-family: system-ui, sans-serif; overflow: hidden; }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+         background: radial-gradient(circle at 50% 38%, rgba(48,209,88,.10), transparent 55%), #000; }
+  .match { display: flex; align-items: center; gap: 28px; }
+  .rep { background: var(--card); border: 1px solid var(--rim); border-radius: 28px; padding: 26px 34px; text-align: left; }
+  .meta { font-size: 22px; color: var(--quiet); display: flex; align-items: center; gap: 10px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .name { font-size: 46px; font-weight: 700; margin-top: 8px; }
+  .score { font-family: ui-rounded, system-ui; font-size: 40px; font-weight: 700; color: var(--found); }
+  .mark { font-size: 230px; font-weight: 800; letter-spacing: -6px; line-height: 1; }
+  .sub { font-size: 40px; color: var(--muted); margin-top: 22px; }
+  .built { font-size: 26px; color: var(--quiet); margin-top: 70px; }
+</style>
+</head>
+<body>
+  <div class="mark">Yunio</div>
+  <div class="sub">Voice lost-and-found for mass gatherings</div>
+  <div class="built">Built on Gnani Prisma + Timbre</div>
+</body>
+</html>

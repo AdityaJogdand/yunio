@@ -1,0 +1,1095 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1080" />
+    <title>Yunio — मराठी</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      /* Tokens from mobile/src/ui.tsx. Quiet/muted are a step brighter than the app so small text passes contrast in video. */
+      :root {
+        --bg: #000;
+        --card: #0e0e0e;
+        --rim: rgba(255, 255, 255, 0.12);
+        --text: #fff;
+        --muted: rgba(255, 255, 255, 0.72);
+        --quiet: rgba(255, 255, 255, 0.58);
+        --lost: #ff6b3d;
+        --found: #30d158;
+        --review: #ffb340;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: system-ui, sans-serif;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--bg);
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+      .num {
+        font-family: ui-rounded, system-ui, sans-serif;
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* ---------- Scene 1: hook ---------- */
+      #s1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        padding: 0 90px;
+        text-align: center;
+      }
+      #s1-a {
+        font-size: 46px;
+        color: var(--muted);
+        font-weight: 500;
+      }
+      #s1-b {
+        font-size: 92px;
+        line-height: 1.05;
+        font-weight: 700;
+        letter-spacing: -2px;
+        max-width: 900px;
+      }
+      #s1-count {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 34px;
+        padding: 14px 26px;
+        border-radius: 999px;
+        border: 1px solid var(--rim);
+        background: var(--card);
+        font-size: 28px;
+      }
+      .dot {
+        display: block;
+        width: 12px;
+        height: 12px;
+        border-radius: 6px;
+      }
+
+      /* ---------- Left captions (scenes 2-5) ---------- */
+      .left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 0 0 80px;
+        width: 520px;
+        box-sizing: border-box;
+      }
+      #s2-mark {
+        font-size: 150px;
+        line-height: 1.25;
+        font-weight: 700;
+      }
+      #s2-name {
+        font-size: 40px;
+        font-weight: 600;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      #s2-sub {
+        font-size: 26px;
+        line-height: 1.4;
+        color: var(--quiet);
+        margin-top: 18px;
+        max-width: 380px;
+      }
+      .cap {
+        font-size: 50px;
+        line-height: 1.2;
+        font-weight: 700;
+        letter-spacing: -1px;
+        margin: 8px 0;
+      }
+      .tag {
+        align-self: flex-start;
+        margin-top: 26px;
+        padding: 10px 18px;
+        border-radius: 999px;
+        border: 1px solid var(--rim);
+        font-size: 22px;
+        color: var(--muted);
+      }
+
+      /* ---------- Phone ---------- */
+      #phone-clip {
+        pointer-events: none;
+      }
+      #phone {
+        position: absolute;
+        right: 80px;
+        top: 110px;
+        width: 410px;
+        height: 860px;
+        border-radius: 64px;
+        background: var(--bg);
+        border: 2px solid #2b2b2b;
+        box-shadow: 0 0 0 10px #121212, 0 40px 120px rgba(0, 0, 0, 0.7);
+        overflow: hidden;
+      }
+      #island {
+        position: absolute;
+        top: 14px;
+        left: 50%;
+        margin-left: -60px;
+        width: 120px;
+        height: 34px;
+        border-radius: 17px;
+        background: #000;
+        border: 1px solid #1c1c1c;
+        z-index: 5;
+      }
+      .screen {
+        position: absolute;
+        inset: 0;
+        padding: 66px 20px 20px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        opacity: 0;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--rim);
+        border-radius: 26px;
+        padding: 16px;
+      }
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 4px;
+      }
+      .back {
+        width: 36px;
+        height: 36px;
+        border-radius: 18px;
+        background: #1a1a1a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+      }
+      .top-title {
+        font-size: 18px;
+        font-weight: 600;
+      }
+      .spacer {
+        width: 36px;
+      }
+
+      /* Home */
+      .h-date {
+        font-size: 11px;
+        letter-spacing: 1.2px;
+        color: var(--quiet);
+        font-weight: 600;
+      }
+      .h-title {
+        font-size: 40px;
+        line-height: 1.3;
+        font-weight: 700;
+      }
+      .h-sub {
+        font-size: 15px;
+        color: var(--muted);
+        margin-top: -6px;
+      }
+      .today {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .side {
+        flex: 1;
+        text-align: center;
+      }
+      .side b {
+        display: block;
+        font-size: 26px;
+        font-weight: 500;
+      }
+      .side span {
+        font-size: 12px;
+        color: var(--quiet);
+      }
+      .ring {
+        position: relative;
+        width: 120px;
+        height: 120px;
+      }
+      .ring-in {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .ring-in b {
+        font-size: 34px;
+        font-weight: 600;
+      }
+      .ring-in span {
+        font-size: 12px;
+        color: var(--quiet);
+      }
+      .ask {
+        font-size: 21px;
+        font-weight: 600;
+        margin-top: 6px;
+      }
+      .action {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .a-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 23px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+      }
+      .a-text {
+        flex: 1;
+      }
+      .a-title {
+        font-size: 19px;
+        font-weight: 600;
+      }
+      .a-local {
+        font-size: 16px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .a-mic {
+        width: 42px;
+        height: 42px;
+        border-radius: 21px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+      }
+
+      /* Conversation */
+      .seg {
+        display: flex;
+        background: #141414;
+        border: 1px solid var(--rim);
+        border-radius: 999px;
+        padding: 3px;
+      }
+      .seg div {
+        flex: 1;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 9px 0;
+        border-radius: 999px;
+        color: var(--muted);
+      }
+      .seg .on {
+        background: #fff;
+        color: #000;
+      }
+      .chips {
+        display: flex;
+        gap: 8px;
+      }
+      .chip {
+        padding: 7px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        font-size: 16px;
+      }
+      .chip.on {
+        background: #fff;
+        color: #000;
+        font-weight: 700;
+        border-color: #fff;
+      }
+      .said {
+        align-self: flex-start;
+        max-width: 88%;
+        background: #161616;
+        border: 1px solid var(--rim);
+        border-radius: 20px;
+        padding: 12px 14px;
+      }
+      .b-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--quiet);
+        margin-bottom: 4px;
+      }
+      .said-text {
+        font-size: 21px;
+        line-height: 1.5;
+      }
+      .said-text span {
+        display: inline-block;
+        margin-right: 5px;
+      }
+      .prisma {
+        align-self: flex-start;
+        font-size: 14px;
+        color: var(--muted);
+        padding: 5px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--rim);
+        margin-top: -4px;
+      }
+      .asked {
+        align-self: flex-end;
+        max-width: 88%;
+        background: #fff;
+        color: #000;
+        border-radius: 20px;
+        padding: 12px 14px;
+      }
+      .asked-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .asked .b-label {
+        color: rgba(0, 0, 0, 0.62);
+      }
+      .asked-text {
+        font-size: 24px;
+        line-height: 1.45;
+        font-weight: 600;
+      }
+      .asked-en {
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.62);
+        margin-top: 2px;
+      }
+      .mic-zone {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        padding-bottom: 6px;
+      }
+      .mic-wrap {
+        position: relative;
+        width: 96px;
+        height: 96px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #mic-ring {
+        position: absolute;
+        width: 92px;
+        height: 92px;
+        border-radius: 46px;
+        border: 2px solid var(--lost);
+        opacity: 0;
+      }
+      #mic {
+        width: 80px;
+        height: 80px;
+        border-radius: 40px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .mic-hint {
+        font-size: 15px;
+        color: var(--muted);
+      }
+
+      /* Match */
+      .m-head,
+      .m-row {
+        display: flex;
+        gap: 8px;
+      }
+      .m-head {
+        padding-bottom: 8px;
+      }
+      .m-row {
+        padding: 12px 0;
+        border-top: 1px solid var(--rim);
+      }
+      .m-l {
+        width: 72px;
+        font-size: 14px;
+        color: var(--quiet);
+        flex: none;
+      }
+      .m-c {
+        flex: 1;
+        font-size: 18px;
+        line-height: 1.35;
+      }
+      .m-head .m-c {
+        font-size: 15px;
+        font-weight: 700;
+      }
+      .score {
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 4px;
+      }
+      #score-v {
+        font-size: 76px;
+        font-weight: 600;
+        letter-spacing: -2px;
+      }
+      .score span {
+        font-size: 15px;
+        color: var(--muted);
+      }
+      .reasons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+      }
+      .reason {
+        font-size: 15px;
+        color: var(--muted);
+        padding: 6px 11px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+      }
+      .primary {
+        margin-top: auto;
+        height: 52px;
+        border-radius: 26px;
+        background: #fff;
+        color: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      /* Announce */
+      .lead {
+        font-size: 15px;
+        color: var(--muted);
+      }
+      .ann {
+        padding: 12px 14px;
+      }
+      .ann-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 4px;
+      }
+      .ann-lang {
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .play {
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+        background: #1a1a1a;
+        border: 1px solid var(--rim);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ann-text {
+        font-size: 16px;
+        line-height: 1.5;
+        color: var(--muted);
+      }
+      .bar {
+        height: 3px;
+        border-radius: 2px;
+        background: rgba(255, 255, 255, 0.12);
+        margin-top: 8px;
+        overflow: hidden;
+      }
+      #bar-fill,
+      .bar-fill {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: var(--found);
+        transform-origin: left center;
+      }
+      .playing {
+        font-size: 14px;
+        color: var(--found);
+        font-weight: 600;
+        margin-right: 10px;
+      }
+
+      /* ---------- Scene 6: reunited ---------- */
+      #s6 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      #s6-check {
+        position: absolute;
+        inset: 0;
+        width: 110px;
+        height: 110px;
+        border-radius: 55px;
+        background: rgba(48, 209, 88, 0.16);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #s6-re {
+        font-size: 44px;
+        font-weight: 700;
+        margin-top: 18px;
+      }
+      #s6-mark {
+        font-size: 160px;
+        line-height: 1.25;
+        font-weight: 700;
+        margin-top: 40px;
+      }
+      #s6-built {
+        font-size: 28px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+      #s6-foot {
+        font-size: 18px;
+        color: var(--quiet);
+        margin-top: 40px;
+      }
+
+      /* Soft glow behind the phone; colour carries the status (missing → found) */
+      .glow {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0;
+      }
+      #glow-w { background: radial-gradient(480px 560px at 77% 52%, rgba(255, 255, 255, 0.09), transparent 70%); }
+      #glow-l { background: radial-gradient(480px 560px at 77% 52%, rgba(255, 107, 61, 0.2), transparent 70%); }
+      #glow-f { background: radial-gradient(480px 560px at 77% 52%, rgba(48, 209, 88, 0.17), transparent 70%); }
+
+      /* Scene 1: a crowd of names, in many scripts */
+      #crowd {
+        position: absolute;
+        inset: 0;
+      }
+      .nm {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 18px;
+        border-radius: 999px;
+        border: 1px solid var(--rim);
+        background: var(--card);
+        font-size: 24px;
+        color: var(--muted);
+        white-space: nowrap;
+        opacity: 0.4;
+      }
+      #nm-key .dot {
+        background: var(--lost);
+      }
+
+      /* Scene 4: the two reports, joined */
+      .rep {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 18px 22px;
+        border-radius: 24px;
+        background: var(--card);
+        border: 1px solid var(--rim);
+      }
+      .rep-meta {
+        font-size: 20px;
+        color: var(--muted);
+      }
+      .rep-name {
+        font-size: 36px;
+        line-height: 1.35;
+        font-weight: 700;
+      }
+      .link {
+        position: relative;
+        height: 110px;
+        margin-left: 27px;
+      }
+      #link-line {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 3px;
+        height: 100%;
+        background: linear-gradient(var(--lost), var(--found));
+        transform-origin: top center;
+      }
+      #link-score {
+        position: absolute;
+        left: 28px;
+        top: 50%;
+        margin-top: -26px;
+        font-size: 44px;
+        font-weight: 700;
+        letter-spacing: -1px;
+      }
+      .cap-s {
+        font-size: 40px;
+        line-height: 1.2;
+        font-weight: 700;
+        letter-spacing: -0.8px;
+        margin-bottom: 28px;
+      }
+
+      /* Scene 5: the languages, said aloud one after another */
+      .langs {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-top: 10px;
+      }
+      .lw {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 46px;
+        line-height: 1.4;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.48);
+      }
+      #lw-mr .dot,
+      #lw-hi .dot,
+      #lw-gu .dot {
+        background: var(--found);
+        opacity: 0;
+      }
+
+      /* Scene 6: the two names meet */
+      #s6-stage {
+        position: relative;
+        width: 110px;
+        height: 110px;
+      }
+      .meet {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 22px;
+        border-radius: 999px;
+        border: 1px solid var(--rim);
+        background: var(--card);
+        font-size: 30px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-anh5" id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1080" data-duration="41.8">
+      <div id="glow-w" class="glow"></div>
+      <div id="glow-l" class="glow"></div>
+      <div id="glow-f" class="glow"></div>
+      <!-- Scene 1: hook -->
+      <section data-hf-id="hf-hy6h" id="s1" class="clip" data-start="0" data-duration="5.6" data-track-index="0">
+        <div id="crowd" data-layout-allow-overflow data-layout-allow-overlap></div>
+        <div data-hf-id="hf-7zkx" id="s1-a">दर काही मिनिटांनी</div>
+        <div data-hf-id="hf-4o44" id="s1-b">कोणीतरी हरवतं.</div>
+        <div data-hf-id="hf-o5uf" id="s1-count">
+          <span data-hf-id="hf-1pu6" class="dot" style="background: var(--lost)"></span>
+          <b data-hf-id="hf-sbpn" id="s1-n" class="num">9</b>
+          <span data-hf-id="hf-i1qs" style="color: var(--muted)">जण सध्या कॅम्पमध्ये हरवलेले</span>
+        </div>
+      </section>
+
+      <!-- Scenes 2-5: left captions -->
+      <section data-hf-id="hf-brbq" id="s2" class="clip left" data-start="5.6" data-duration="4.2" data-track-index="1">
+        <div data-hf-id="hf-ejh1" id="s2-mark">Yunio</div>
+        <div data-hf-id="hf-24vn" id="s2-sub">मोठ्या गर्दीसाठी आवाजावर चालणारं हरवले-सापडले केंद्र</div>
+      </section>
+      <section data-hf-id="hf-t2bu" id="s3" class="clip left" data-start="9.8" data-duration="9.4" data-track-index="1">
+        <div data-hf-id="hf-m0t8" id="s3-1" class="cap">ते बोलतात.</div>
+        <div data-hf-id="hf-db4j" id="s3-2" class="cap">प्रिझ्मा लिहितं.</div>
+        <div data-hf-id="hf-hyls" id="s3-3" class="cap">युनियो विचारतं.</div>
+      </section>
+      <section data-hf-id="hf-i6qv" id="s4" class="clip left" data-start="19.2" data-duration="4.2" data-track-index="1">
+        <div id="s4-1" class="cap-s">कॅम्प वेगळे, लिपी वेगळ्या.</div>
+        <div id="rep-a" class="rep">
+          <span class="dot" style="background: var(--lost)"></span>
+          <div><div class="rep-meta">कॅम्प 3 · मराठी · हरवले</div><div class="rep-name">सुमन गायकवाड</div></div>
+        </div>
+        <div class="link"><span id="link-line"></span><span id="link-score" class="num">97%</span></div>
+        <div id="rep-b" class="rep">
+          <span class="dot" style="background: var(--found)"></span>
+          <div><div class="rep-meta">कॅम्प 4 · ಕನ್ನಡ · सापडले</div><div class="rep-name">ಸುಮನ್</div></div>
+        </div>
+      </section>
+      <section data-hf-id="hf-12xo" id="s5" class="clip left" data-start="23.4" data-duration="14.4" data-track-index="1">
+        <div id="s5-1" class="cap-s">प्रत्येक भाषेत घोषणा.</div>
+        <div class="langs">
+          <div id="lw-mr" class="lw">मराठी <span class="dot"></span></div>
+          <div id="lw-hi" class="lw">हिंदी <span class="dot"></span></div>
+          <div id="lw-gu" class="lw">ગુજરાતી <span class="dot"></span></div>
+          <div class="lw">తెలుగు</div>
+          <div class="lw">ಕನ್ನಡ</div>
+        </div>
+        <div id="s5-2" class="tag">आवाज: Gnani Timbre</div>
+      </section>
+
+      <!-- Scenes 2-5: one phone, screens crossfade -->
+      <section data-hf-id="hf-5677" id="phone-clip" class="clip" data-start="5.6" data-duration="32.2" data-track-index="2">
+        <div data-hf-id="hf-e184" id="phone" data-layout-ignore>
+          <div data-hf-id="hf-i9du" id="island"></div>
+
+          <!-- Home -->
+          <div data-hf-id="hf-s3be" id="scr-home" class="screen">
+            <div data-hf-id="hf-zoh6" class="h-date">SATURDAY, 31 OCTOBER</div>
+            <div data-hf-id="hf-aj0u" class="h-title">Yunio</div>
+            <div data-hf-id="hf-xgw6" class="h-sub">Lost &amp; found · Camp 3, Ramkund</div>
+            <div data-hf-id="hf-vn2y" class="card">
+              <div data-hf-id="hf-sijt" class="top"><span data-hf-id="hf-6pxl" style="font-size: 17px; font-weight: 600">Today</span><span data-hf-id="hf-t0kv" style="font-size: 12px; color: var(--quiet)">All 4 camps</span></div>
+              <div data-hf-id="hf-rh5f" class="today">
+                <div data-hf-id="hf-cww1" class="side"><b data-hf-id="hf-0jor" class="num">2</b><span data-hf-id="hf-c5yr">missing</span></div>
+                <div data-hf-id="hf-0qcu" class="ring">
+                  <svg data-hf-id="hf-3zsa" width="120" height="120" viewBox="0 0 120 120" style="transform: rotate(-90deg)">
+                    <circle data-hf-id="hf-eh82" cx="60" cy="60" r="54" stroke="rgba(255,255,255,0.1)" stroke-width="8" fill="none" />
+                    <circle data-hf-id="hf-wlxq" cx="60" cy="60" r="54" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="203 340" />
+                  </svg>
+                  <div data-hf-id="hf-aj2i" class="ring-in"><b data-hf-id="hf-0xzs" class="num">3</b><span data-hf-id="hf-31mj">reunited</span></div>
+                </div>
+                <div data-hf-id="hf-w7th" class="side"><b data-hf-id="hf-y5ul" class="num">4</b><span data-hf-id="hf-tnyj">found</span></div>
+              </div>
+            </div>
+            <div data-hf-id="hf-9r93" class="ask">What happened?</div>
+            <div data-hf-id="hf-rwsw" class="card action">
+              <div data-hf-id="hf-bnka" class="a-icon" style="background: rgba(255, 107, 61, 0.14)">
+                <svg data-hf-id="hf-pdha" width="22" height="22" viewBox="0 0 24 24"><circle data-hf-id="hf-oyy2" cx="10.5" cy="10.5" r="6.5" stroke="#ff6b3d" stroke-width="2.6" fill="none" /><path data-hf-id="hf-rtua" d="M15.5 15.5l5 5" stroke="#ff6b3d" stroke-width="2.6" stroke-linecap="round" /></svg>
+              </div>
+              <div data-hf-id="hf-bzvn" class="a-text"><div data-hf-id="hf-ck1k" class="a-title">Someone is missing</div><div data-hf-id="hf-tozp" class="a-local">कोणी हरवले आहे</div></div>
+              <div data-hf-id="hf-9mwf" class="a-mic"><svg data-hf-id="hf-sm8k" width="18" height="18" viewBox="0 0 24 24"><rect data-hf-id="hf-ee10" x="8" y="2" width="8" height="13" rx="4" fill="#000" /><path data-hf-id="hf-x68f" d="M5 11a7 7 0 0 0 14 0M12 18v4" stroke="#000" stroke-width="2.2" fill="none" stroke-linecap="round" /></svg></div>
+            </div>
+            <div data-hf-id="hf-3aug" class="card action">
+              <div data-hf-id="hf-b9ii" class="a-icon" style="background: rgba(48, 209, 88, 0.14)">
+                <svg data-hf-id="hf-ah5u" width="22" height="22" viewBox="0 0 24 24"><path data-hf-id="hf-t3g9" d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="#30d158" /></svg>
+              </div>
+              <div data-hf-id="hf-excz" class="a-text"><div data-hf-id="hf-x3i3" class="a-title">I found someone</div><div data-hf-id="hf-pxd2" class="a-local">कोणी सापडले आहे</div></div>
+              <div data-hf-id="hf-5y6n" class="a-mic"><svg data-hf-id="hf-7fzg" width="18" height="18" viewBox="0 0 24 24"><rect data-hf-id="hf-8ddo" x="8" y="2" width="8" height="13" rx="4" fill="#000" /><path data-hf-id="hf-hu5r" d="M5 11a7 7 0 0 0 14 0M12 18v4" stroke="#000" stroke-width="2.2" fill="none" stroke-linecap="round" /></svg></div>
+            </div>
+          </div>
+
+          <!-- Conversation -->
+          <div data-hf-id="hf-g5w5" id="scr-talk" class="screen">
+            <div data-hf-id="hf-8kpp" class="top"><div data-hf-id="hf-sm20" class="back">‹</div><div data-hf-id="hf-7hb8" class="top-title">New report</div><div data-hf-id="hf-x5ec" class="spacer"></div></div>
+            <div data-hf-id="hf-ta0z" class="seg"><div data-hf-id="hf-4bbj" class="on">हरवले · Missing</div><div data-hf-id="hf-cf79">सापडले · Found</div></div>
+            <div data-hf-id="hf-exrd" class="chips"><div data-hf-id="hf-ec8v" class="chip on">मराठी</div><div data-hf-id="hf-vvr6" class="chip">हिंदी</div><div data-hf-id="hf-u4hs" class="chip">ગુજરાતી</div><div data-hf-id="hf-7ru5" class="chip">తెలుగు</div></div>
+            <div data-hf-id="hf-fx62" id="said" class="said">
+              <div data-hf-id="hf-rd1m" class="b-label">They said</div>
+              <div data-hf-id="hf-thrt" id="said-text" class="said-text">माझी आजी हरवली आहे. नाव सुमन गायकवाड, वय सत्तर, गाव सिन्नर.</div>
+            </div>
+            <div data-hf-id="hf-uzpz" id="prisma" class="prisma">Gnani Prisma · 0.8 s</div>
+            <div data-hf-id="hf-tvgq" id="asked" class="asked">
+              <div data-hf-id="hf-qq1b" class="asked-head">
+                <div data-hf-id="hf-7gim" class="b-label">Yunio asks</div>
+                <svg data-hf-id="hf-692d" width="18" height="18" viewBox="0 0 24 24"><path data-hf-id="hf-mm4s" d="M4 9v6h4l5 4V5L8 9z" fill="#000" /><path data-hf-id="hf-0wd8" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round" /></svg>
+              </div>
+              <div data-hf-id="hf-rqr9" class="asked-text">आजींनी काय घातलं आहे?</div>
+              <div data-hf-id="hf-9mfi" class="asked-en">What is she wearing?</div>
+            </div>
+            <div data-hf-id="hf-j85w" class="mic-zone">
+              <div data-hf-id="hf-2jc2" class="mic-wrap">
+                <div data-hf-id="hf-fcqx" id="mic-ring"></div>
+                <div data-hf-id="hf-zjrq" id="mic"><svg data-hf-id="hf-zfx0" width="30" height="30" viewBox="0 0 24 24"><rect data-hf-id="hf-76gl" x="8" y="2" width="8" height="13" rx="4" fill="#000" /><path data-hf-id="hf-hfuq" d="M5 11a7 7 0 0 0 14 0M12 18v4" stroke="#000" stroke-width="2.2" fill="none" stroke-linecap="round" /></svg></div>
+              </div>
+              <div data-hf-id="hf-rb0o" id="mic-hint" class="mic-hint">Tap to record, or hold to talk</div>
+            </div>
+          </div>
+
+          <!-- Match -->
+          <div data-hf-id="hf-amhu" id="scr-match" class="screen">
+            <div data-hf-id="hf-9rms" class="top"><div data-hf-id="hf-m7j4" class="back">‹</div><div data-hf-id="hf-8tqk" class="top-title">Same person?</div><div data-hf-id="hf-1ing" class="spacer"></div></div>
+            <div data-hf-id="hf-i08u" class="card">
+              <div data-hf-id="hf-c81k" class="m-head"><div data-hf-id="hf-xa0q" class="m-l"></div><div data-hf-id="hf-lew4" class="m-c" style="color: var(--lost)">Missing</div><div data-hf-id="hf-jelg" class="m-c" style="color: var(--found)">Found</div></div>
+              <div data-hf-id="hf-exe6" class="m-row"><div data-hf-id="hf-dkdd" class="m-l">Name</div><div data-hf-id="hf-ltl3" class="m-c">सुमन गायकवाड</div><div data-hf-id="hf-4apy" class="m-c">ಸುಮನ್</div></div>
+              <div data-hf-id="hf-z6vm" class="m-row"><div data-hf-id="hf-isdx" class="m-l">Age</div><div data-hf-id="hf-pcf2" class="m-c num">70</div><div data-hf-id="hf-q514" class="m-c num">72</div></div>
+              <div data-hf-id="hf-zl6n" class="m-row"><div data-hf-id="hf-nozf" class="m-l">Wearing</div><div data-hf-id="hf-v28p" class="m-c">हिरवी साडी</div><div data-hf-id="hf-3zso" class="m-c">green saree</div></div>
+              <div data-hf-id="hf-zzho" class="m-row"><div data-hf-id="hf-uydq" class="m-l">Village</div><div data-hf-id="hf-eoh3" class="m-c">सिन्नर</div><div data-hf-id="hf-frmm" class="m-c">ಸಿನ್ನರ್</div></div>
+              <div data-hf-id="hf-0dsp" class="m-row"><div data-hf-id="hf-ewmj" class="m-l">Camp</div><div data-hf-id="hf-ztbf" class="m-c">3 · मराठी</div><div data-hf-id="hf-ri4t" class="m-c">4 · ಕನ್ನಡ</div></div>
+            </div>
+            <div data-hf-id="hf-a672" class="score"><b data-hf-id="hf-pvzv" id="score-v" class="num">0%</b><span data-hf-id="hf-bz6h">likely</span></div>
+            <div data-hf-id="hf-1ylr" class="reasons">
+              <div data-hf-id="hf-j3qd" class="reason">same name</div>
+              <div data-hf-id="hf-l6ne" class="reason">same village</div>
+              <div data-hf-id="hf-cay6" class="reason">similar age</div>
+              <div data-hf-id="hf-nvel" class="reason">both in green saree</div>
+            </div>
+            <div data-hf-id="hf-qbx4" class="primary">Yes, same person</div>
+          </div>
+
+          <!-- Announce: real output of announce.build for this pair -->
+          <div data-hf-id="hf-ax34" id="scr-ann" class="screen">
+            <div data-hf-id="hf-9dbr" class="top"><div data-hf-id="hf-l0m1" class="back">‹</div><div data-hf-id="hf-6ppg" class="top-title">Tell the family</div><div data-hf-id="hf-0bqd" class="spacer"></div></div>
+            <div data-hf-id="hf-jkhi" class="lead">Play these on the speaker, in the family's language first.</div>
+            <div data-hf-id="hf-ed4m" id="ann-mr" class="card ann">
+              <div data-hf-id="hf-ib50" class="ann-head"><span data-hf-id="hf-gkhd" class="ann-lang">मराठी</span><span data-hf-id="hf-pjol" style="display: flex; align-items: center"><span data-hf-id="hf-wsi7" id="playing" class="playing">Playing</span><span data-hf-id="hf-u7tz" id="mr-play" class="play"><svg data-hf-id="hf-q0vs" width="12" height="12" viewBox="0 0 24 24"><path data-hf-id="hf-0e6w" id="mr-tri" d="M6 4l14 8-14 8z" fill="#fff" /></svg></span></span></div>
+              <div data-hf-id="hf-3e15" class="ann-text">सुमन गायकवाड कॅम्प क्रमांक 4 येथे सुरक्षित आहेत. कृपया तिथे या.</div>
+              <div data-hf-id="hf-ufsv" class="bar"><span data-hf-id="hf-dcil" id="bar-fill"></span></div>
+            </div>
+            <div data-hf-id="hf-ebnn" id="ann-hi" class="card ann">
+              <div data-hf-id="hf-tnks" class="ann-head"><span data-hf-id="hf-p32d" class="ann-lang">हिंदी</span><span style="display: flex; align-items: center"><span id="playing-hi" class="playing">Playing</span><span data-hf-id="hf-mgmf" id="hi-play" class="play"><svg data-hf-id="hf-iswg" width="12" height="12" viewBox="0 0 24 24"><path data-hf-id="hf-7xwv" d="M6 4l14 8-14 8z" id="hi-tri" fill="#fff" /></svg></span></span></div>
+              <div data-hf-id="hf-ctts" class="ann-text">सुमन गायकवाड कैंप नंबर 4 पर सुरक्षित हैं। कृपया वहाँ आएँ।</div>
+              <div class="bar"><span id="bar-hi" class="bar-fill"></span></div>
+            </div>
+            <div data-hf-id="hf-hiwz" id="ann-gu" class="card ann">
+              <div data-hf-id="hf-sgnp" class="ann-head"><span data-hf-id="hf-oe8z" class="ann-lang">ગુજરાતી</span><span style="display: flex; align-items: center"><span id="playing-gu" class="playing">Playing</span><span data-hf-id="hf-dwlj" id="gu-play" class="play"><svg data-hf-id="hf-hlzd" width="12" height="12" viewBox="0 0 24 24"><path data-hf-id="hf-zbtb" d="M6 4l14 8-14 8z" id="gu-tri" fill="#fff" /></svg></span></span></div>
+              <div data-hf-id="hf-ezmn" class="ann-text">સુમન ગાયકવાડ કેમ્પ નંબર 4 પર સુરક્ષિત છે.</div>
+              <div class="bar"><span id="bar-gu" class="bar-fill"></span></div>
+            </div>
+            <div data-hf-id="hf-h4ly" class="card ann">
+              <div data-hf-id="hf-suyq" class="ann-head"><span data-hf-id="hf-1z1g" class="ann-lang">తెలుగు</span><span data-hf-id="hf-diai" class="play"><svg data-hf-id="hf-i0ae" width="12" height="12" viewBox="0 0 24 24"><path data-hf-id="hf-yxia" d="M6 4l14 8-14 8z" fill="#fff" /></svg></span></div>
+              <div data-hf-id="hf-ndye" class="ann-text">సుమన్ గాయకవాడ్ క్యాంప్ నంబర్ 4 వద్ద సురక్షితంగా ఉన్నారు.</div>
+            </div>
+            <div data-hf-id="hf-gqax" class="card ann">
+              <div data-hf-id="hf-uuhv" class="ann-head"><span data-hf-id="hf-egsu" class="ann-lang">ಕನ್ನಡ</span><span data-hf-id="hf-d3zh" class="play"><svg data-hf-id="hf-gtdb" width="12" height="12" viewBox="0 0 24 24"><path data-hf-id="hf-yj79" d="M6 4l14 8-14 8z" fill="#fff" /></svg></span></div>
+              <div data-hf-id="hf-k30t" class="ann-text">ಸುಮನ್ ಗಾಯಕವಾಡ್ ಶಿಬಿರ ಸಂಖ್ಯೆ 4ರಲ್ಲಿ ಸುರಕ್ಷಿತವಾಗಿದ್ದಾರೆ.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scene 6: reunited -->
+      <section data-hf-id="hf-3f1z" id="s6" class="clip" data-start="37.8" data-duration="4" data-track-index="0">
+        <div id="s6-stage" data-layout-allow-overlap>
+          <div id="meet-a" class="meet"><span class="dot" style="background: var(--lost)"></span>सुमन गायकवाड</div>
+          <div id="meet-b" class="meet"><span class="dot" style="background: var(--found)"></span>ಸುಮನ್</div>
+          <div data-hf-id="hf-jnnd" id="s6-check"><svg data-hf-id="hf-fd10" width="54" height="54" viewBox="0 0 24 24"><path data-hf-id="hf-1tdv" d="M5 12.5l4.5 4.5L19 7.5" stroke="#30d158" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+        </div>
+        <div data-hf-id="hf-duwe" id="s6-re">कुटुंब पुन्हा एकत्र</div>
+        <div data-hf-id="hf-7zs9" id="s6-mark">Yunio</div>
+        <div data-hf-id="hf-lshr" id="s6-built">Gnani Prisma + Timbre वर आधारित</div>
+        <div data-hf-id="hf-sgys" id="s6-foot">प्रोटोटाइप · कृत्रिम डेटा · सरकारी सेवा नाही</div>
+      </section>
+
+      <!-- Audio: Gnani Timbre narration + the product's own Timbre output -->
+      <audio data-hf-id="hf-7ikf" id="vo1" src="assets/vo/vo1.wav" data-duration="5.04" data-start="0.15" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-d7qx" id="vo2" src="assets/vo/vo2.wav" data-duration="4.16" data-start="5.7" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-x260" id="vo3" src="assets/vo/vo3.wav" data-duration="6.88" data-start="10.0" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-i22j" id="vo-q" src="assets/vo/q.wav" data-duration="1.36" data-start="17.3" data-track-index="11" data-volume="1"></audio>
+      <audio data-hf-id="hf-wtnu" id="vo4" src="assets/vo/vo4.wav" data-duration="3.92" data-start="19.4" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-lidx" id="vo5" src="assets/vo/vo5.wav" data-duration="3.20" data-start="23.6" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-qfds" id="vo-ann" src="assets/vo/ann.wav" data-duration="4.40" data-start="27.1" data-track-index="11" data-volume="1"></audio>
+      <audio id="vo-ann-hi" src="assets/vo/ann_hi.wav" data-duration="2.64" data-start="31.65" data-track-index="11" data-volume="1"></audio>
+      <audio id="vo-ann-gu" src="assets/vo/ann_gu.wav" data-duration="3.12" data-start="34.45" data-track-index="11" data-volume="1"></audio>
+      <audio data-hf-id="hf-dbx3" id="vo6" src="assets/vo/vo6.wav" data-duration="3.36" data-start="38.1" data-track-index="10" data-volume="1"></audio>
+      <audio data-hf-id="hf-yduy"
+        id="bg-music"
+        src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3"
+        data-start="0"
+        data-duration="41.8"
+        data-track-index="12"
+        data-volume="1"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":1,"v":0.12},{"t":40.8,"v":0.12},{"t":41.8,"v":0}]}]}'
+      ></audio>
+      <audio data-hf-id="hf-hvak" id="sfx-ask" src="assets/sfx/drop_001.ogg" data-start="17.2" data-duration="0.11" data-track-index="13" data-volume="0.55"></audio>
+      <audio data-hf-id="hf-5a3o" id="sfx-cards" src="assets/sfx/card-fan-1.ogg" data-start="23.45" data-duration="0.72" data-track-index="14" data-volume="0.45"></audio>
+      <audio data-hf-id="hf-6hs0" id="sfx-bell" src="assets/sfx/impactBell_heavy_000.ogg" data-start="38.75" data-duration="1.48" data-track-index="15" data-volume="0.5"></audio>
+    </div>
+
+    <script>
+      // Type the transcript word by word (whole words, so Devanagari conjuncts never split)
+      const said = document.getElementById("said-text");
+      const words = said.textContent.split(" ");
+      said.innerHTML = words.map((w) => `<span class="w">${w}</span>`).join("");
+
+      // Synthetic names, the way a mela sounds: many scripts at once. One of them is ours.
+      const ROWS = [
+        [70, ["रामदास यादव", "કમળાબેન", "ರವಿ ಕುಮಾರ್", "லட்சுமி"]],
+        [158, ["সুমিত্রা", "ਗੁਰਪ੍ਰੀਤ", "ശാന്ത", "बाबुराव शिंदे"]],
+        [796, ["హేమలత", "कमला देवी", "ಗೌರಮ್ಮ", "முருகன்"]],
+        [884, ["सीताबाई", "#key", "જયેશ"]],
+        [972, ["ਹਰਜੀਤ", "অনিল", "ശ്രീധരൻ", "లక్ష్మణ్"]],
+      ];
+      const crowd = document.getElementById("crowd");
+      ROWS.forEach(([y, names], r) => {
+        const row = document.createElement("div");
+        row.className = "row";
+        row.style.cssText = `position:absolute;left:0;right:0;top:${y}px;height:60px`;
+        names.forEach((n, i) => {
+          const c = document.createElement("div");
+          c.className = "nm";
+          const key = n === "#key";
+          if (key) c.id = "nm-key";
+          c.innerHTML = key ? '<span class="dot"></span>सुमन गायकवाड' : n;
+          // Spread across the width, staggered per row so columns don't line up
+          c.style.left = `${(i + 0.5) * (1080 / names.length) - 120 + (r % 2 ? 46 : -46)}px`;
+          row.appendChild(c);
+        });
+        crowd.appendChild(row);
+      });
+
+      const tl = gsap.timeline({ paused: true });
+      const ease = "power3.out";
+
+      // Scene 1 — hook: the crowd drifts; one name lights up as "separated" lands
+      gsap.utils.toArray("#crowd .row").forEach((row, r) => {
+        tl.fromTo(row, { x: r % 2 ? 40 : -40 }, { x: r % 2 ? -40 : 40, duration: 5.6, ease: "none" }, 0);
+      });
+      tl.to("#nm-key", { opacity: 1, color: "#ffffff", borderColor: "rgba(255,107,61,0.8)", scale: 1.12, duration: 0.5, ease }, 2.6);
+      tl.to("#crowd .nm:not(#nm-key)", { opacity: 0.22, duration: 0.6 }, 2.6);
+      tl.fromTo("#s1-b", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.7, ease }, 2.2);
+      tl.fromTo("#s1-count", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease }, 3.0);
+      const n = { v: 9 };
+      tl.to(n, { v: 12, duration: 1.6, ease: "none", onUpdate: () => (document.getElementById("s1-n").textContent = Math.round(n.v)) }, 3.2);
+      tl.to("#s1 > *", { opacity: 0, duration: 0.5 }, 5.1);
+
+      // Scene 2 — reveal + phone rises
+      tl.fromTo("#s2-mark", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, ease }, 5.7);
+      tl.fromTo("#s2-sub", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 6.4);
+      tl.fromTo("#phone", { opacity: 0, y: 120, rotationY: -22, transformPerspective: 1400 }, { opacity: 1, y: 0, rotationY: 0, duration: 1.1, ease }, 5.7);
+      tl.to("#glow-w", { opacity: 1, duration: 0.8 }, 5.8);
+      tl.to("#scr-home", { opacity: 1, duration: 0.4 }, 5.8);
+      tl.to("#s2 > *", { opacity: 0, duration: 0.4 }, 9.4);
+
+      // Scene 3 — conversation
+      tl.to("#scr-home", { opacity: 0, duration: 0.5 }, 9.6);
+      tl.to("#scr-talk", { opacity: 1, duration: 0.5 }, 9.7);
+      tl.to("#glow-w", { opacity: 0, duration: 0.8 }, 9.7);
+      tl.to("#glow-l", { opacity: 1, duration: 0.8 }, 9.7);
+      tl.fromTo("#glow-l", { scale: 1 }, { scale: 1.12, duration: 1.6, repeat: 1, yoyo: true, ease: "sine.inOut" }, 13.9);
+      // punch-in: the question is the moment; the phone leans toward it, holds, settles back before the cut
+      tl.to("#phone", { scale: 1.1, transformOrigin: "50% 38%", duration: 0.7, ease: "power2.inOut" }, 17.1);
+      tl.to("#phone", { scale: 1, duration: 0.5, ease: "power2.inOut" }, 18.5);
+      tl.set(["#said", "#prisma", "#asked"], { opacity: 0 }, 0);
+      tl.fromTo("#s3-1", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease }, 10.1);
+      // Recording: the mic ring pulses (finite) while they speak
+      tl.to("#mic", { backgroundColor: "#ff6b3d", duration: 0.2 }, 10.4);
+      tl.fromTo("#mic-ring", { opacity: 0.9, scale: 1 }, { opacity: 0, scale: 1.4, duration: 0.8, repeat: 2, ease: "power1.out" }, 10.4);
+      tl.set("#mic-hint", { textContent: "Recording · tap to stop" }, 10.4);
+      tl.to("#mic", { backgroundColor: "#ffffff", duration: 0.2 }, 12.8);
+      tl.set("#mic-hint", { textContent: "Writing it down…" }, 12.8);
+      // Prisma's transcript lands, word by word
+      tl.to("#said", { opacity: 1, duration: 0.3 }, 13.2);
+      tl.fromTo("#said .w", { opacity: 0 }, { opacity: 1, duration: 0.2, stagger: 0.16 }, 13.3);
+      tl.fromTo("#prisma", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4, ease }, 14.9);
+      tl.to("#s3-1", { opacity: 0.45, duration: 0.3 }, 13.4);
+      tl.fromTo("#s3-2", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease }, 13.4);
+      // Yunio asks back, as Timbre speaks it
+      tl.to("#s3-2", { opacity: 0.45, duration: 0.3 }, 17.2);
+      tl.fromTo("#s3-3", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease }, 17.2);
+      tl.fromTo("#asked", { opacity: 0, y: 16, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.4)" }, 17.2);
+      tl.set("#mic-hint", { textContent: "Record their answer" }, 17.2);
+      tl.to("#s3 > *", { opacity: 0, duration: 0.4 }, 18.8);
+
+      // Scene 4 — match
+      tl.to("#scr-talk", { opacity: 0, duration: 0.5 }, 19.0);
+      tl.to("#scr-match", { opacity: 1, duration: 0.5 }, 19.1);
+      tl.fromTo("#s4-1", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease }, 19.3);
+      tl.to("#glow-l", { opacity: 0, duration: 0.8 }, 19.1);
+      tl.to("#glow-f", { opacity: 1, duration: 0.8 }, 19.1);
+      tl.fromTo("#rep-a", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.5, ease }, 19.4);
+      tl.fromTo("#rep-b", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.5, ease }, 19.6);
+      tl.fromTo("#link-line", { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: "power2.inOut" }, 20.0);
+      tl.fromTo("#link-score", { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.4, ease }, 20.4);
+      const s = { v: 0 };
+      // beat-locked: 19.66s — score lands on the strong cue
+      tl.to(s, { v: 97, duration: 1.0, ease: "power2.out", onUpdate: () => (document.getElementById("score-v").textContent = Math.round(s.v) + "%") }, 18.86);
+      // reasons arrive one by one, then hold (every other beat at 110 BPM)
+      tl.fromTo("#scr-match .reason", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.3, stagger: 0.36, ease }, 20.0);
+      tl.to("#s4 > *", { opacity: 0, duration: 0.4 }, 23.0);
+
+      // Scene 5 — announcement
+      tl.to("#scr-match", { opacity: 0, duration: 0.5 }, 23.2);
+      tl.to("#scr-ann", { opacity: 1, duration: 0.4 }, 23.3);
+      // beat-locked: 23.46s — first card on the strong cue
+      tl.fromTo("#scr-ann .ann", { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.45, stagger: 0.12, ease }, 23.46);
+      tl.fromTo("#s5-1", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease }, 23.6);
+      tl.fromTo("#s5 .lw", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.45, stagger: 0.12, ease }, 23.7);
+      tl.fromTo("#s5-2", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 24.6);
+      tl.to("#lw-mr", { color: "#ffffff", duration: 0.3 }, 27.1);
+      tl.to("#lw-mr .dot", { opacity: 1, duration: 0.3 }, 27.1);
+      tl.set("#playing", { opacity: 0 }, 0);
+      tl.set(["#playing-hi", "#playing-gu"], { opacity: 0 }, 0);
+      // Marathi → Hindi → Gujarati: each card hands over to the next as Timbre speaks it
+      const turns = [["mr", "#ann-mr", "#mr-play", "#mr-tri", "#playing", "#bar-fill", 27.1, 4.4], ["hi", "#ann-hi", "#hi-play", "#hi-tri", "#playing-hi", "#bar-hi", 31.65, 2.64], ["gu", "#ann-gu", "#gu-play", "#gu-tri", "#playing-gu", "#bar-gu", 34.45, 3.12]];
+      turns.forEach(([code, card, play, tri, label, bar, t, d], i) => {
+        if (code !== "mr") {
+          tl.to(card, { borderColor: "rgba(255,255,255,0.55)", duration: 0.25 }, t);
+          tl.to(play, { backgroundColor: "#ffffff", duration: 0.25 }, t);
+          tl.to(tri, { attr: { fill: "#000000" }, duration: 0.25 }, t);
+          tl.to(label, { opacity: 1, duration: 0.2 }, t);
+          tl.fromTo(bar, { scaleX: 0 }, { scaleX: 1, duration: d, ease: "none" }, t);
+          tl.to(`#lw-${code}`, { color: "#ffffff", duration: 0.3 }, t);
+          tl.to(`#lw-${code} .dot`, { opacity: 1, duration: 0.3 }, t);
+        }
+        const next = turns[i + 1];
+        if (next) {
+          const off = next[6] - 0.05;
+          tl.to(card, { borderColor: "rgba(255,255,255,0.12)", duration: 0.25 }, off);
+          tl.to(play, { backgroundColor: "#1a1a1a", duration: 0.25 }, off);
+          tl.to(tri, { attr: { fill: "#ffffff" }, duration: 0.25 }, off);
+          tl.to(label, { opacity: 0, duration: 0.2 }, off);
+          tl.to(`#lw-${code}`, { color: "rgba(255,255,255,0.48)", duration: 0.3 }, off);
+          tl.to(`#lw-${code} .dot`, { opacity: 0, duration: 0.3 }, off);
+        }
+      });
+      // The Marathi card lights up as its announcement plays
+      tl.to("#ann-mr", { borderColor: "rgba(255,255,255,0.55)", duration: 0.25 }, 27.1);
+      tl.to("#mr-play", { backgroundColor: "#ffffff", duration: 0.25 }, 27.1);
+      tl.to("#mr-tri", { attr: { fill: "#000000" }, duration: 0.25 }, 27.1);
+      tl.fromTo("#bar-fill", { scaleX: 0 }, { scaleX: 1, duration: 4.4, ease: "none" }, 27.1);
+      tl.to("#playing", { opacity: 1, duration: 0.2 }, 27.1);
+      tl.to("#s5 > *", { opacity: 0, duration: 0.4 }, 37.5);
+      tl.to("#phone", { opacity: 0, y: 40, duration: 0.5 }, 37.45);
+      tl.to("#glow-f", { opacity: 0, duration: 0.6 }, 37.45);
+
+      // Scene 6 — reunited
+      // The two names appear apart, hold long enough to read, then slide together and become the check
+      tl.fromTo("#meet-a", { xPercent: -160, yPercent: -50, opacity: 0 }, { opacity: 1, duration: 0.3 }, 37.8);
+      tl.fromTo("#meet-b", { xPercent: 60, yPercent: -50, opacity: 0 }, { opacity: 1, duration: 0.3 }, 37.8);
+      tl.to("#meet-a", { xPercent: -50, duration: 0.45, ease: "power2.in" }, 38.3);
+      tl.to("#meet-b", { xPercent: -50, duration: 0.45, ease: "power2.in" }, 38.3);
+      tl.to(["#meet-a", "#meet-b"], { opacity: 0, scale: 0.5, duration: 0.2 }, 38.75);
+      tl.fromTo("#s6-check", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" }, 38.75);
+      tl.fromTo("#s6-re", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease }, 38.95);
+      // beat-locked: 32.74s — wordmark
+      tl.fromTo("#s6-mark", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, ease }, 39.5);
+      tl.fromTo("#s6-built", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 39.6);
+      tl.fromTo("#s6-foot", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 39.9);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
