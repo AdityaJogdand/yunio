@@ -1,4 +1,4 @@
-"""Yunio backend: the phone app sends recordings here; Gnani + Gemini keys stay on this machine.
+"""Yunio backend: the phone app sends recordings here; the Gnani key and Evon server stay on this machine.
 Run: uv run --env-file .env uvicorn yunio.server:app --host 0.0.0.0 --port 8000
 """
 import json
@@ -55,7 +55,7 @@ def _matches(case: dict, k=3) -> list[dict]:
 
 @app.post("/api/intake")
 async def intake(audio: UploadFile, lang: str = Form(...), kind: str = Form(...), history: str = Form("")):
-    """Recording -> Prisma transcript -> Gemini fields + the next follow-up question.
+    """Recording -> Prisma transcript -> Evon fields + the next follow-up question.
 
     `history` is the conversation so far ("Person: ..." / "Yunio: ..." lines); each answer is re-read with it,
     so the profile always reflects everything said. The volunteer confirms before anything is saved."""

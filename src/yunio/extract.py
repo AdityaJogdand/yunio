@@ -1,10 +1,17 @@
-"""Turn a spoken lost/found conversation into structured fields, plus the next follow-up question, with Gemini (JSON mode)."""
+"""Turn a spoken lost/found conversation into structured fields, plus the next follow-up question, with Gnani Evon.
+
+Evon (huggingface.co/gnani/gnani-evon-v3.3-30B-A3B) runs behind an OpenAI-compatible server, e.g. per its model card:
+  vllm serve gnani/gnani-evon-v3.3 --served-model-name model --max-model-len 131072 --port 8001 --trust-remote-code \
+    --enable-auto-tool-choice --tool-call-parser qwen3_coder --reasoning-parser nano_v3
+"""
 import json
 import os
+import re
 
 import httpx
 
-MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash-lite")
+EVON_URL = os.environ.get("EVON_URL", "http://localhost:8001/v1")
+MODEL = os.environ.get("EVON_MODEL", "model")  # the --served-model-name
 
 LANG_NAMES = {"hi": "Hindi", "mr": "Marathi", "gu": "Gujarati", "te": "Telugu", "kn": "Kannada", "ta": "Tamil",
               "bn": "Bengali", "pa": "Punjabi", "ml": "Malayalam", "en": "English"}
@@ -29,43 +36,49 @@ Below is a conversation at the camp desk ({kind} report, language {lang}). "Pers
 Conversation:
 {transcript}"""
 
-_STR = {"type": "STRING"}
+_STR = {"type": "string"}
+_KEYS = ("name", "nickname", "age", "gender", "clothing", "village", "district", "place", "phone", "question", "question_en")
 SCHEMA = {
-    "type": "OBJECT",
-    "properties": {
-        **{k: _STR for k in ("name", "nickname", "age", "clothing", "village", "district", "place", "phone", "question", "question_en")},
-        "gender": _STR,  # Gemini rejects "" in an enum; normalised below
-        "clothing_tags": {"type": "ARRAY", "items": _STR},
-    },
-    "required": ["name", "nickname", "age", "gender", "clothing", "clothing_tags", "village", "district", "place", "phone",
-                 "question", "question_en"],
+    "type": "object",
+    "properties": {**{k: _STR for k in _KEYS}, "clothing_tags": {"type": "array", "items": _STR}},
+    "required": [*_KEYS, "clothing_tags"],
 }
+
+
+def _json(text: str) -> dict:
+    """The JSON object in the reply, in case a reasoning trace or code fence slips through."""
+    text = re.sub(r"<think>.*?</think>", "", text, flags=re.S)
+    return json.loads(text[text.index("{"):text.rindex("}") + 1])
 
 
 def extract(transcript: str, lang: str, kind: str) -> dict:
     """`transcript` is one report, or the whole conversation so far as "Person: ..." / "Yunio: ..." lines."""
-    key = os.environ.get("GEMINI_API_KEY")
-    if not key:
-        raise RuntimeError("GEMINI_API_KEY not set in .env")
-    r = httpx.post(
-        f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent",
-        headers={"x-goog-api-key": key},  # header, not query: keeps the key out of error messages and logs
-        json={
-            "contents": [{"parts": [{"text": PROMPT.format(
-                kind=kind, lang=lang, lang_name=LANG_NAMES.get(lang[:2], "Hindi"), transcript=transcript,
-                where="they got separated" if kind == "missing" else "they were found",
-                phone=", the family's phone number" if kind == "missing" else "")}]}],
-            "generationConfig": {"responseMimeType": "application/json", "responseSchema": SCHEMA, "temperature": 0},
-        },
-        timeout=30,
-    )
+    prompt = PROMPT.format(
+        kind=kind, lang=lang, lang_name=LANG_NAMES.get(lang[:2], "Hindi"), transcript=transcript,
+        where="they got separated" if kind == "missing" else "they were found",
+        phone=", the family's phone number" if kind == "missing" else "")
+    key = os.environ.get("EVON_API_KEY")  # only if the server is behind auth
+    try:
+        r = httpx.post(
+            f"{EVON_URL}/chat/completions",
+            headers={"Authorization": f"Bearer {key}"} if key else {},
+            json={
+                "model": MODEL,
+                "messages": [{"role": "user", "content": prompt + "\n\nReply with one JSON object only."}],
+                # The card's deterministic mode; temperature 0 because this fills a form, not a chat.
+                "chat_template_kwargs": {"enable_thinking": False},
+                "temperature": 0, "repetition_penalty": 1.1, "max_tokens": 2048,
+                "response_format": {"type": "json_schema", "json_schema": {"name": "report", "schema": SCHEMA}},
+            },
+            timeout=60,
+        )
+    except httpx.ConnectError:
+        raise RuntimeError(f"Evon server not reachable at {EVON_URL}; set EVON_URL in .env")
     if r.is_error:
-        raise RuntimeError(f"Gemini {r.status_code}: {r.text[:300]}")
-    parts = r.json()["candidates"][0]["content"]["parts"]
-    out = json.loads("".join(p.get("text", "") for p in parts))
+        raise RuntimeError(f"Evon {r.status_code}: {r.text[:300]}")
+    out = _json(r.json()["choices"][0]["message"]["content"])
     out["gender"] = out.get("gender") if out.get("gender") in ("F", "M") else ""
     return out
-
 
 if __name__ == "__main__":
     out = extract("Person: माझी आजी हरवली आहे. नाव सखुबाई पाटील, सगळे आक्का म्हणतात. वय सत्तर. हिरवी नऊवारी साडी. "
