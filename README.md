@@ -48,7 +48,7 @@ vllm serve gnani/gnani-evon-v3.3 --served-model-name model --max-model-len 13107
 Backend (Python 3.12+, [uv](https://docs.astral.sh/uv/)):
 
 ```sh
-cp .env.example .env   # add GNANI_API_KEY; EVON_URL points at your Evon server
+cp .env.example .env   # add GNANI_API_KEY and YUNIO_TOKEN; EVON_URL points at your Evon server
 uv sync
 uv run --env-file .env uvicorn yunio.server:app --host 0.0.0.0 --port 8000
 uv run --env-file .env scripts/smoke.py   # optional: check the Gnani keys work
@@ -59,12 +59,20 @@ App:
 ```sh
 cd mobile
 npm install
-EXPO_PUBLIC_API_URL=http://<your-machine-ip>:8000 npx expo start
+EXPO_PUBLIC_API_URL=http://<your-machine-ip>:8000 EXPO_PUBLIC_API_TOKEN=<same as YUNIO_TOKEN> npx expo start
 ```
 
 If you leave out `EXPO_PUBLIC_API_URL`, the app runs in demo mode on synthetic data.
+
+## Security
+
+- Every API call needs the shared `X-Yunio-Token`, so others on the camp Wi-Fi can't read cases, close them or spend the Gnani key. The backend refuses to start without one.
+- New reports keep only the form's fields, each capped at 200 characters; a client can't set a case's status or camp.
+- Recordings over 2 MB are rejected.
+- `uv run python scripts/check_security.py` checks all of the above.
 
 ## Limits
 
 - Cases are kept in memory and reset when the server restarts.
 - The announcement templates were not written by native speakers. Each language needs checking before real use.
+- One shared token for all volunteers, over plain HTTP on the local network. A real deployment needs HTTPS, per-volunteer logins and rate limits.

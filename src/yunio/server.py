@@ -2,16 +2,30 @@
 Run: uv run --env-file .env uvicorn yunio.server:app --host 0.0.0.0 --port 8000
 """
 import json
+import os
+import secrets
 from datetime import datetime
 from pathlib import Path
 
-from fastapi import FastAPI, Form, HTTPException, UploadFile
+from fastapi import Depends, FastAPI, Form, Header, HTTPException, UploadFile
 from fastapi.responses import Response
 
 from yunio import announce, gnani, match
 from yunio.extract import extract
 
-app = FastAPI(title="Yunio")
+# Shared secret the app sends on every request, so others on the camp Wi-Fi can't read or change cases
+# or spend the Gnani key. ponytail: one token for all volunteers; per-volunteer logins for a real deployment.
+TOKEN = os.environ.get("YUNIO_TOKEN", "")
+if len(TOKEN) < 16:
+    raise RuntimeError("Set YUNIO_TOKEN in .env (16+ chars), e.g. python -c 'import secrets; print(secrets.token_urlsafe())'")
+
+
+def _auth(x_yunio_token: str = Header("")):
+    if not secrets.compare_digest(x_yunio_token.encode(), TOKEN.encode()):
+        raise HTTPException(401, "Missing or wrong X-Yunio-Token")
+
+
+app = FastAPI(title="Yunio", dependencies=[Depends(_auth)])
 
 # ponytail: in-memory store seeded from synthetic data; resets on restart. SQLite when cases must survive.
 CASES: list[dict] = json.loads((Path(__file__).parents[2] / "data" / "seed.json").read_text())
@@ -19,6 +33,9 @@ CAMP = 3  # the camp this backend serves; new reports are filed here
 REVIEW_AT = 0.6  # matches at or above this score go to a volunteer for review
 MAX_QUESTIONS = 3  # follow-ups per report, so a family isn't kept at the desk
 REJECTED: set[tuple[str, str]] = set()  # (lost, found) pairs a volunteer said are different people
+MAX_AUDIO = 2_000_000  # bytes; Prisma takes <=30s clips, which are well under this
+FIELDS = ("name", "nickname", "age", "gender", "clothing", "village", "district", "place", "phone", "lang")
+MAX_FIELD = 200  # chars per saved field
 
 
 def _case(case_id: str) -> dict:
@@ -59,9 +76,12 @@ async def intake(audio: UploadFile, lang: str = Form(...), kind: str = Form(...)
 
     `history` is the conversation so far ("Person: ..." / "Yunio: ..." lines); each answer is re-read with it,
     so the profile always reflects everything said. The volunteer confirms before anything is saved."""
-    data = await audio.read()
+    data = await audio.read(MAX_AUDIO + 1)
     if not data:
         raise HTTPException(400, "Empty recording")
+    if len(data) > MAX_AUDIO:
+        raise HTTPException(413, "Recording too long; keep it under 30 seconds")
+    history = history[-4000:]  # the last few turns are all extraction needs
     heard = gnani.stt(data, lang=lang, filename=audio.filename or "intake.m4a")
     transcript = heard.get("transcript", "").strip()
     if not transcript:
@@ -84,13 +104,16 @@ async def intake(audio: UploadFile, lang: str = Form(...), kind: str = Form(...)
 
 
 @app.post("/api/cases")
-def create_case(case: dict):
-    kind = case.get("kind")
+def create_case(body: dict):
+    kind = body.get("kind")
     if kind not in ("lost", "found"):
         raise HTTPException(400, "kind must be lost or found")
+    # Only the form's fields, as short strings: the client can't set status, camp, id or anything else
+    case = {k: str(body[k])[:MAX_FIELD] for k in FIELDS if body.get(k) not in (None, "")}
+    case["kind"] = kind
     n = max(int(c["id"][2:]) for c in CASES) + 1
     case["id"] = f"{'L' if kind == 'lost' else 'F'}-{n:04d}"
-    case.setdefault("camp", CAMP)
+    case["camp"] = CAMP
     case["time"] = datetime.now().strftime("%H:%M")
     CASES.append(case)
     return {"id": case["id"], "matches": _matches(case)}

@@ -4,6 +4,8 @@ import { File } from 'expo-file-system';
 
 export const API = process.env.EXPO_PUBLIC_API_URL;
 export const DEMO = !API;
+// Shared camp token the backend checks; it guards the server on the camp Wi-Fi, not the Gnani key.
+const AUTH = { 'X-Yunio-Token': process.env.EXPO_PUBLIC_API_TOKEN ?? '' };
 
 export type Kind = 'lost' | 'found';
 export type Profile = {
@@ -45,7 +47,7 @@ export async function intake(uri: string, lang: string, kind: Kind, history = ''
   form.append('lang', lang);
   form.append('kind', kind);
   form.append('history', history);
-  const r = await fetch(`${API}/api/intake`, { method: 'POST', body: form });
+  const r = await fetch(`${API}/api/intake`, { method: 'POST', headers: AUTH, body: form });
   if (!r.ok) throw new Error((await r.json().catch(() => null))?.detail ?? `Intake failed (${r.status})`);
   return r.json();
 }
@@ -63,7 +65,7 @@ export async function register(kind: Kind, lang: string, profile: Profile): Prom
   }
   const r = await fetch(`${API}/api/cases`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { ...AUTH, 'Content-Type': 'application/json' },
     body: JSON.stringify({ kind, lang, ...profile }),
   });
   if (!r.ok) throw new Error(`Could not save (${r.status})`);
@@ -95,7 +97,7 @@ const DEMO_PAIR: Pair = {
 };
 
 async function get<T>(path: string): Promise<T> {
-  const r = await fetch(`${API}${path}`);
+  const r = await fetch(`${API}${path}`, { headers: AUTH });
   if (!r.ok) throw new Error((await r.json().catch(() => null))?.detail ?? `Request failed (${r.status})`);
   return r.json();
 }
@@ -123,7 +125,7 @@ async function post(path: string, body: object) {
   if (DEMO) return;
   const r = await fetch(`${API}${path}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { ...AUTH, 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
   if (!r.ok) throw new Error(`Could not update (${r.status})`);
@@ -143,9 +145,9 @@ export const caseMatches = (id: string): Promise<Candidate[]> =>
     ? Promise.resolve(id === DEMO_PAIR.lost.id ? [{ id: DEMO_PAIR.found.id, name: DEMO_PAIR.found.name, score: DEMO_PAIR.score, reasons: DEMO_PAIR.reasons }] : [])
     : get(`/api/cases/${id}/matches`);
 
-/** URL that speaks text with Timbre, for reading details back to the family. */
+/** Audio source that speaks text with Timbre, for reading details back to the family. */
 export const speechUrl = (text: string, lang: string) =>
-  DEMO ? null : `${API}/api/tts?lang=${encodeURIComponent(lang)}&text=${encodeURIComponent(text)}`;
+  DEMO ? null : { uri: `${API}/api/tts?lang=${encodeURIComponent(lang)}&text=${encodeURIComponent(text)}`, headers: AUTH };
 
 const SAMPLES: Record<string, { transcript: string; profile: Partial<Profile> }> = {
   'lost:mr-IN': {

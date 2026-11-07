@@ -123,7 +123,7 @@ export default function IntakeScreen() {
     const uri = speechUrl(q.text, lang);
     if (!uri) return;
     setAsking(true);
-    player.replace({ uri });
+    player.replace(uri);
     player.play();
   }
 
@@ -132,7 +132,7 @@ export default function IntakeScreen() {
     const summary = [profile.name, profile.age && `${profile.age}`, profile.clothing, profile.village, profile.place].filter(Boolean).join(', ');
     const uri = speechUrl(summary, heard?.lang ?? lang) ?? recorder.uri;
     if (!uri) return;
-    player.replace({ uri });
+    player.replace(uri);
     player.play();
   }
 

@@ -172,7 +172,7 @@ function Announce({ lines, onReunited }: { lines: Announcement[]; onReunited: ()
     if (!uri) return Alert.alert('Demo mode', 'Connect the server to hear announcements.');
     setPlaying(a.lang);
     setLoading(a.lang);
-    player.replace({ uri });
+    player.replace(uri);
     player.play();
   }
 
